@@ -19,6 +19,10 @@ export class UltimateLogger extends ConsoleLogger {
     super('App', { logLevels });
   }
 
+  info(message: any, ...optionalParams: any[]) {
+    this.processLog('log', message, ...optionalParams);
+  }
+
   log(message: any, ...optionalParams: any[]) {
     this.processLog('log', message, ...optionalParams);
   }

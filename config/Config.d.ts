@@ -6,6 +6,14 @@ declare module "node-config-ts" {
     database: Database
     cache: Cache
     sentry: Sentry
+    email: Email
+  }
+  interface Email {
+    host: string
+    port: number
+    secure: boolean
+    user: string
+    pass: string
   }
   interface Sentry {
     enabled: boolean
@@ -34,6 +42,9 @@ declare module "node-config-ts" {
     port: number
     host: string
     debug: boolean
+    saltRounds: number
+    jwtSecret: string
+    jwtExpiresIn: string
   }
   export const config: Config
   export type Config = IConfig

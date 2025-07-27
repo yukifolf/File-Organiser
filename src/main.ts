@@ -5,17 +5,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app/app.module';
 import helmet from 'helmet';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ConsoleLogger } from '@nestjs/common';
+import { UltimateLogger } from './utils/logger';
 
 declare const module: any;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    logger: new ConsoleLogger({
-      json: true,
-      timestamp: true,
-    }),
-  });
+  const app = await NestFactory.create(AppModule);
   app.use(helmet());
   const config = new DocumentBuilder()
     .setTitle('Cats example')
@@ -26,7 +21,7 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
   await app.listen(process.env.PORT ?? 3000);
-
+  app.useLogger(new UltimateLogger());
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());
